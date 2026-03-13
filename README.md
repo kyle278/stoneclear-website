@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Stone Clear Website
 
-## Getting Started
+Replacement marketing website for Stone Clear, focused on restoration-led quote enquiries.
 
-First, run the development server:
+## Launch pages
+
+- `/`
+- `/services`
+- `/gallery`
+- `/clients`
+- `/about`
+- `/contact`
+
+## Forms in scope
+
+- `contact`
+
+## Portal integration
+
+- Organisation id: `TBD`
+- Site id: `TBD`
+- Default form slug: `contact`
+- Portal route contract: `app/api/portal-form-submit/route.ts`
+
+## Deployment
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run lint
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Environment variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+See `.env.example`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Brand assets
 
-## Learn More
+Current launch assets were pulled from the existing Stone Clear website and stored in `public/stoneclear/`.
 
-To learn more about Next.js, take a look at the following resources:
+## Manual follow-up items
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Add confirmed production domain later if Stone Clear moves off the default Vercel domain
+- Replace reused current-site assets with final brand-approved photography and logo files when available
+- Fill portal IDs and Vercel metadata below once provisioning is complete
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Connected services
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- GitHub repo: `TBD`
+- Vercel project id: `TBD`
+- Vercel project URL: `TBD`
+- Active production alias: `TBD`

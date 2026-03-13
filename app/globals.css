@@ -1,26 +1,166 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f5f1e8;
+  --foreground: #1f2421;
+  --surface: #fbf8f2;
+  --surface-strong: #e7dece;
+  --card: rgba(255, 255, 255, 0.7);
+  --line: rgba(31, 36, 33, 0.12);
+  --accent: #7b5a34;
+  --accent-strong: #a87939;
+  --forest: #26342d;
+  --muted: #61685f;
+  --shadow: 0 24px 80px rgba(31, 36, 33, 0.14);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface: var(--surface);
+  --color-surface-strong: var(--surface-strong);
+  --color-card: var(--card);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-forest: var(--forest);
+  --color-muted: var(--muted);
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), sans-serif;
+  min-height: 100vh;
+  background-image:
+    radial-gradient(circle at top left, rgba(168, 121, 57, 0.18), transparent 30%),
+    radial-gradient(circle at top right, rgba(38, 52, 45, 0.12), transparent 26%),
+    linear-gradient(180deg, #f7f2e8 0%, #f2ede4 48%, #f6f3ed 100%);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.site-shell {
+  min-height: 100vh;
+}
+
+.page-shell {
+  margin: 0 auto;
+  width: min(1180px, calc(100% - 2rem));
+}
+
+.page-section {
+  padding: 4.5rem 0;
+}
+
+.section-label {
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.section-title {
+  font-family: var(--font-serif), serif;
+  font-size: clamp(2.25rem, 4vw, 4.5rem);
+  line-height: 0.95;
+}
+
+.section-copy {
+  color: var(--muted);
+  font-size: 1.02rem;
+  line-height: 1.8;
+}
+
+.glass-card {
+  background: var(--card);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.button-primary {
+  align-items: center;
+  background: linear-gradient(135deg, var(--accent-strong), var(--accent));
+  border-radius: 999px;
+  color: white;
+  display: inline-flex;
+  font-size: 0.95rem;
+  font-weight: 700;
+  gap: 0.65rem;
+  justify-content: center;
+  min-height: 3.25rem;
+  padding: 0.85rem 1.35rem;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease;
+}
+
+.button-primary:hover {
+  box-shadow: 0 16px 32px rgba(123, 90, 52, 0.24);
+  opacity: 0.95;
+  transform: translateY(-1px);
+}
+
+.button-secondary {
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 0.95rem;
+  font-weight: 700;
+  gap: 0.65rem;
+  justify-content: center;
+  min-height: 3.25rem;
+  padding: 0.85rem 1.35rem;
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.button-secondary:hover {
+  background: rgba(255, 255, 255, 0.55);
+  transform: translateY(-1px);
+}
+
+.soft-grid {
+  background-image:
+    linear-gradient(to right, rgba(31, 36, 33, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(31, 36, 33, 0.045) 1px, transparent 1px);
+  background-position: center;
+  background-size: 32px 32px;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.text-pretty {
+  text-wrap: pretty;
+}
+
+@media (max-width: 768px) {
+  .page-section {
+    padding: 3.5rem 0;
+  }
 }
