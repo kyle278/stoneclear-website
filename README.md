@@ -21,6 +21,7 @@ Replacement marketing website for Stone Clear, focused on restoration-led quote 
 - Site id: `TBD`
 - Default form slug: `contact`
 - Portal route contract: `app/api/portal-form-submit/route.ts`
+- Provisioning command to run from `ingeniumportal`: `npm run provision:client -- --mode onboard --name "Stone Clear" --slug stone-clear --owner-email info@stoneclear.ie`
 
 ## Deployment
 
@@ -40,13 +41,16 @@ Current launch assets were pulled from the existing Stone Clear website and stor
 
 ## Manual follow-up items
 
+- Add the missing portal env/secrets locally or in Vercel before testing live form submissions
+- Run the organisation provisioning command and update `.env.local` / Vercel env vars with the returned IDs
+- Apply `portal/stoneclear-portal-seed.sql` after the organisation exists
 - Add confirmed production domain later if Stone Clear moves off the default Vercel domain
 - Replace reused current-site assets with final brand-approved photography and logo files when available
 - Fill portal IDs and Vercel metadata below once provisioning is complete
 
 ## Connected services
 
-- GitHub repo: `TBD`
-- Vercel project id: `TBD`
-- Vercel project URL: `TBD`
-- Active production alias: `TBD`
+- GitHub repo: `https://github.com/kyle278/stoneclear-website`
+- Vercel project id: `prj_1oxWvizXqF4sNnB5hvvsXc0IHOIA`
+- Vercel project URL: `https://vercel.com/kyle278s-projects/stoneclear-website`
+- Active production alias: `https://stoneclear-website.vercel.app`
