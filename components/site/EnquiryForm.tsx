@@ -106,8 +106,8 @@ export function EnquiryForm({ preset = "" }: { preset?: string }) {
       <div className="enquiry-progress"><span>Step {step + 1} of {stages.length}</span><span>{stages[step]}</span></div>
       <progress value={step + 1} max={stages.length} aria-label={`Enquiry progress: step ${step + 1} of ${stages.length}`} />
       <div className="enquiry-step" key={step}>
-        <h2 ref={heading} tabIndex={-1}>{["What needs a little care?", "What kind of space?", "Tell us about your project.", "How can we reach you?", "Ready when you are."][step]}</h2>
-        <p className="enquiry-hint">{["Choose one to continue. We’ll ask for your email before you send.", "Choose one to continue. We’ll tailor the conversation to your space.", "Your town or county helps us plan a visit. No full address needed.", "We’ll use your email to reply about your enquiry. Phone is optional.", "Please read our privacy notice. Email updates are entirely optional."][step]}</p>
+        <h2 ref={heading} tabIndex={-1}>{["What needs a little care?", "What kind of space?", "About your project.", "How can we reach you?", "Ready when you are."][step]}</h2>
+        <p className="enquiry-hint">{["Choose one to continue. We’ll ask for your email before you send.", "Choose one to continue. We’ll tailor the conversation to your space.", "Town or county is enough to plan a visit.", "We’ll use your email to reply about your enquiry. Phone is optional.", "Please read our privacy notice. Email updates are entirely optional."][step]}</p>
         {(Object.keys(errors).length > 0 || failure) && <div className="enquiry-error" ref={errorSummary} tabIndex={-1} role="alert">{failure || "Please check the highlighted information below."}</div>}
         {(step === 0 || step === 1) && <div className="enquiry-choices" role="group" aria-label={step === 0 ? "Choose a service" : "Choose a property type"}>
           {(step === 0 ? services : properties).map((option, index) => {
@@ -117,7 +117,7 @@ export function EnquiryForm({ preset = "" }: { preset?: string }) {
         </div>}
         {step === 2 && <div className="enquiry-fields">
           {input("location", "Town or county", { autoComplete: "address-level2", maxLength: 120 })}
-          <div className="enquiry-field"><label htmlFor="enquiry-message">What would you like to improve? <span>(optional)</span></label><textarea id="enquiry-message" name="message" rows={4} maxLength={2000} value={answers.message} onChange={event => update("message", event.target.value)} aria-invalid={Boolean(errors.message)} aria-describedby={errors.message ? "error-message" : "message-help"} /><p id="message-help" className="field-hint">The surface, any wear or damage, and an approximate area if you know it.</p>{errors.message && <p id="error-message" className="field-error">{errors.message}</p>}</div>
+          <div className="enquiry-field"><label htmlFor="enquiry-message">What would you like to improve? <span>(optional)</span></label><textarea id="enquiry-message" name="message" rows={3} maxLength={2000} value={answers.message} onChange={event => update("message", event.target.value)} aria-invalid={Boolean(errors.message)} aria-describedby={errors.message ? "error-message" : "message-help"} /><p id="message-help" className="field-hint">The surface, any wear or damage, and an approximate area if you know it.</p>{errors.message && <p id="error-message" className="field-error">{errors.message}</p>}</div>
         </div>}
         {step === 3 && <div className="enquiry-fields"><div className="enquiry-name-row">{input("first_name", "First name", { autoComplete: "given-name" })}{input("last_name", "Last name", { autoComplete: "family-name" })}</div>{input("email", "Email", { type: "email", autoComplete: "email", maxLength: 254 })}{input("phone", "Phone", { type: "tel", autoComplete: "tel", optional: true, maxLength: 40 })}</div>}
         {step === 4 && <div className="enquiry-consents">
