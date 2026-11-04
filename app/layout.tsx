@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
-import { Manrope } from "next/font/google";
+import { Archivo, Lato } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
-const sans = Manrope({
-  variable: "--font-sans",
+const primary = Archivo({
+  variable: "--font-primary",
   subsets: ["latin"],
+  display: "swap",
+});
+const secondary = Lato({
+  variable: "--font-secondary",
+  subsets: ["latin"],
+  weight: ["400", "700"],
   display: "swap",
 });
 export const metadata: Metadata = {
@@ -28,7 +34,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={sans.variable}>
+      <body className={`${primary.variable} ${secondary.variable}`}>
         <a className="skip-link" href="#main">
           Skip to content
         </a>

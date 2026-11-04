@@ -13,7 +13,7 @@ Production checks: `npm run build` and `npm run lint`. Production server: `npm r
 
 ## Pages
 
-Home, services, stone restoration, gallery, about, homes/businesses, contact and privacy. Client-owned photography is served in WebP. Interactive before/after viewer, native keyboard-accessible service selector, mobile navigation and reduced-motion controls are implemented.
+Home, services, stone restoration, gallery, about, homes/businesses, contact and privacy. Client-owned photography is served in WebP. The logo is a monochrome, outlined SVG; primary Archivo and secondary Lato are locally served by next/font. Animated draggable before/after comparison, native keyboard-accessible service selector, mobile navigation and reduced-motion controls are implemented.
 
 Contact links open a telephone/email app. There is no live enquiry submission or data persistence. The retained Portal scaffold is not mounted by the public site and has no configured environment variables. Do not activate it without a separately authorised integration and approved privacy wording. No analytics/tracking is mounted.
 

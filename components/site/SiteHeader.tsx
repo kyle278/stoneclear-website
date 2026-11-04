@@ -45,9 +45,9 @@ export function SiteHeader() {
             onClick={() => setOpen(false)}
           >
             <Image
-              src="/assets/logo-trim.png"
-              width={300}
-              height={143}
+              src="/assets/stone-clear-logo.svg"
+              width={648}
+              height={269}
               alt="Stone Clear"
               priority
               unoptimized

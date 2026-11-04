@@ -27,3 +27,11 @@ Assets: client CDN base https://irp.cdn-website.com/5d7e1f82/dms3rep/multi/opt/
 - hero.png is a decorative original shape, unused.
 
 Assets downloaded from original client-owned gallery for this requested prospect sample. No competitor images, stock or generative edits. WebP compression/resizing only, preserving factual details. Some older original photographs have imperfect lighting; used at appropriate scales without claiming new project dates.
+
+
+4 November 2026 brand refinement requested by Kyle:
+- Compared current wordmark with Arial Bold, Arial Black, Arimo Bold and Archivo 800/900. No authoritative font specification found; Arial Black is a visual inference, not a confirmed identification.
+- Chosen close web match: Archivo. Official family/design context: https://googlefonts.github.io/omnibus/ and https://github.com/Omnibus-Type/Archivo . Font file https://raw.githubusercontent.com/google/fonts/main/ofl/archivo/Archivo%5Bwdth,wght%5D.ttf used to produce Archivo 900 letter outlines in the new SVG.
+- Secondary Lato from Google Fonts, 400/700, following skill guidance to give display, body and interface distinct roles. Font source: https://github.com/google/fonts/tree/main/ofl/lato . Archivo/Lato SIL Open Font Licenses retained in public/assets/font-licenses/.
+- Arimo was a comparison candidate: official https://github.com/googlefonts/arimo describes Arial-compatible metrics; it was not selected for the site.
+- Original fan geometry referenced the existing tracked, larger client logo public/stoneclear/logo.png. Redrawn as clean Bezier paths; current wordmark replaced with close-match Archivo 900 paths. New file public/assets/stone-clear-logo.svg; separate symbol public/assets/stone-clear-symbol.svg; all fills #1258a4, transparent background, no red tagline or raster data. scripts/build-logo.py can regenerate the outlined assets using fontTools and the official font source.

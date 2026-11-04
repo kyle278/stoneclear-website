@@ -128,7 +128,7 @@ export default function Stone() {
           </h2>
           <p>
             Real photographs from our restoration gallery. Choose a material and
-            switch between the original views.
+            drag to reveal the before and after views.
           </p>
         </div>
         <ResultsViewer />

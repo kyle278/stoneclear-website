@@ -1,14 +1,14 @@
 "use client";
 import { useState } from "react";
-import { ArrowUpRight, MoveHorizontal } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
-import { Picture } from "./UI";
+import { ComparisonSlider } from "./ComparisonSlider";
 export const restorationProjects = [
   {
     id: "crema",
     title: "Crema Marfil",
     material: "Marble",
-    copy: "From a dull surface to a reflective finish. Switch between the views to explore the difference restoration can make.",
+    copy: "From a dull surface to a reflective finish. Drag across the photographs to explore the difference restoration can make.",
     before: "crema-before",
     after: "crema-after",
     finish: "Polished marble",
@@ -43,7 +43,7 @@ export const restorationProjects = [
 ];
 export function ResultsViewer({ full = false }: { full?: boolean }) {
   const [project, setProject] = useState(0);
-  const [view, setView] = useState<"before" | "after">("after");
+  const [playing, setPlaying] = useState(true);
   const item = restorationProjects[project];
   return (
     <div className={`results-viewer ${full ? "results-full" : ""}`}>
@@ -64,36 +64,13 @@ export function ResultsViewer({ full = false }: { full?: boolean }) {
         ))}
       </div>
       <div className="result-grid">
-        <div className="result-photo">
-          <Picture
-            key={`${item.id}-${view}`}
-            name={item[view]}
-            alt={`${item.title}${item.id === "wood" ? "" : " floor"} ${view} Stone Clear restoration`}
-            className={`result-picture result-${item.id}`}
-          />
-          <span className="photo-state">
-            {view === "after" ? "After restoration" : "Before restoration"}
-          </span>
-          <div
-            className="view-switch"
-            role="group"
-            aria-label="View before or after restoration"
-          >
-            <button
-              aria-pressed={view === "before"}
-              onClick={() => setView("before")}
-            >
-              Before
-            </button>
-            <MoveHorizontal size={16} aria-hidden="true" />
-            <button
-              aria-pressed={view === "after"}
-              onClick={() => setView("after")}
-            >
-              After
-            </button>
-          </div>
-        </div>
+        <ComparisonSlider
+          key={item.id}
+          project={item}
+          playing={playing}
+          onPause={() => setPlaying(false)}
+          onToggle={() => setPlaying((value) => !value)}
+        />
         <div className="result-copy">
           <div className="result-title" aria-live="polite">
             <span className="eyebrow">

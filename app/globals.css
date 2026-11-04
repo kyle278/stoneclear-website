@@ -8,7 +8,7 @@
   --white: #fff;
   --muted: #566773;
   --line: #d5dde2;
-  --font-body: var(--font-sans), Arial, sans-serif;
+  --font-body: var(--font-secondary), Arial, sans-serif;
   --size-xs: 0.75rem;
   --size-sm: 0.875rem;
   --size-base: 1rem;
@@ -44,7 +44,7 @@ body {
   margin: 0;
   color: var(--ink);
   background: var(--chalk);
-  font-family: var(--font-sans), Arial, sans-serif;
+  font-family: var(--font-secondary), Arial, sans-serif;
   font-size: var(--size-base);
   -webkit-font-smoothing: antialiased;
 }
@@ -758,42 +758,6 @@ svg {
 .result-white img {
   object-fit: contain;
   background: var(--ice);
-}
-.photo-state {
-  position: absolute;
-  top: var(--space-5);
-  left: var(--space-5);
-  background: var(--white);
-  font-size: var(--size-xs);
-  padding: var(--space-2) var(--space-3);
-  font-weight: 600;
-}
-.view-switch {
-  position: absolute;
-  bottom: var(--space-5);
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: 5px;
-  background: var(--white);
-  box-shadow: 0 2px 15px #172a3817;
-}
-.view-switch button {
-  padding: var(--space-3) var(--space-5);
-  background: transparent;
-  border: 0;
-  color: var(--muted);
-  font-size: var(--size-sm);
-  min-width: 85px;
-}
-.view-switch button[aria-pressed="true"] {
-  background: var(--blue);
-  color: var(--white);
-}
-.view-switch > svg {
-  color: var(--muted);
 }
 .result-copy .eyebrow {
   color: var(--blue);
@@ -1573,19 +1537,6 @@ svg {
   .results-full .result-picture {
     height: 320px;
   }
-  .photo-state {
-    font-size: 10px;
-    top: var(--space-4);
-    left: var(--space-4);
-  }
-  .view-switch {
-    bottom: var(--space-4);
-  }
-  .view-switch button {
-    font-size: var(--size-xs);
-    padding: var(--space-3) var(--space-4);
-    min-width: 75px;
-  }
   .result-copy .eyebrow {
     margin-bottom: var(--space-3);
     font-size: 9px;
@@ -1919,4 +1870,207 @@ html[data-motion="reduced"] *:before,
 html[data-motion="reduced"] *:after {
   animation: none !important;
   transition: none !important;
+}
+
+/* Brand typography: Archivo echoes the original heavy grotesque logo; Lato supports reading. */
+h1,
+h2,
+h3,
+.eyebrow,
+.desktop-nav,
+.mobile-nav,
+.button,
+.text-link,
+.project-choices,
+.contact-options,
+.service-jumps,
+.footer-wordmark,
+.comparison-play,
+.comparison-label {
+  font-family: var(--font-primary), Arial, sans-serif;
+}
+h1 {
+  font-weight: 800;
+  letter-spacing: -0.055em;
+}
+h2 {
+  font-weight: 750;
+  letter-spacing: -0.045em;
+}
+h3 {
+  font-weight: 650;
+  letter-spacing: -0.035em;
+}
+.footer-wordmark {
+  font-weight: 800;
+}
+.brand img {
+  width: 170px;
+  height: 72px;
+}
+.brand {
+  width: 180px;
+}
+/* A native range remains the keyboard control; its visible handle is shared by autoplay and dragging. */
+.comparison-stage {
+  --comparison-reveal: 50%;
+  position: relative;
+  overflow: hidden;
+  background: var(--ice);
+  isolation: isolate;
+}
+.comparison-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.comparison-layer img {
+  object-fit: cover;
+  user-select: none;
+  pointer-events: none;
+}
+.result-white .comparison-layer img {
+  object-fit: contain;
+}
+.comparison-before {
+  clip-path: inset(0 calc(100% - var(--comparison-reveal)) 0 0);
+}
+.comparison-label {
+  position: absolute;
+  top: var(--space-5);
+  z-index: 2;
+  background: var(--white);
+  color: var(--ink);
+  font-size: var(--size-xs);
+  font-weight: 600;
+  padding: var(--space-2) var(--space-3);
+  pointer-events: none;
+}
+.comparison-label-before {
+  left: var(--space-5);
+}
+.comparison-label-after {
+  right: var(--space-5);
+}
+.comparison-divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--comparison-reveal);
+  width: 2px;
+  transform: translateX(-50%);
+  z-index: 3;
+  background: var(--white);
+  box-shadow: 0 0 0 1px #172a3826;
+  pointer-events: none;
+}
+.comparison-divider > span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 1px solid var(--line);
+  color: var(--blue);
+  box-shadow: 0 2px 14px #172a3826;
+}
+.comparison-range {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  z-index: 4;
+  cursor: ew-resize;
+  touch-action: pan-y;
+}
+.comparison-stage:has(.comparison-range:focus-visible) {
+  outline: 3px solid var(--blue);
+  outline-offset: 5px;
+}
+.comparison-stage:has(.comparison-range:focus-visible)
+  .comparison-divider
+  > span {
+  background: var(--blue);
+  color: var(--white);
+  border-color: var(--white);
+}
+.comparison-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-top: var(--space-2);
+}
+.comparison-toolbar p {
+  font-size: var(--size-xs);
+  line-height: 1.5;
+  color: var(--muted);
+}
+.comparison-play {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-width: 80px;
+  min-height: 44px;
+  padding: var(--space-2) var(--space-3);
+  color: var(--blue);
+  font-size: var(--size-xs);
+  font-weight: 600;
+  background: transparent;
+  border: 1px solid var(--line);
+}
+.comparison-play:hover {
+  background: var(--ice);
+}
+.comparison-motion-note {
+  font-size: var(--size-xs);
+  color: var(--muted);
+  white-space: nowrap;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+@media (max-width: 700px) {
+  .brand {
+    width: 145px;
+  }
+  .brand img {
+    width: 140px;
+    height: 60px;
+  }
+  .comparison-label {
+    top: var(--space-4);
+    font-size: 11px;
+  }
+  .comparison-label-before {
+    left: var(--space-4);
+  }
+  .comparison-label-after {
+    right: var(--space-4);
+  }
+  .comparison-divider > span {
+    width: 46px;
+    height: 46px;
+  }
+  .comparison-toolbar p {
+    font-size: 11px;
+  }
+  .comparison-play {
+    font-size: 11px;
+    min-width: 72px;
+  }
+  .comparison-motion-note {
+    font-size: 11px;
+  }
+  .intro-grid h1 {
+    font-size: clamp(2.6rem, 12vw, 3.15rem);
+  }
 }
