@@ -1,62 +1,49 @@
-import { Instagram, Mail, Phone } from "lucide-react";
-import { email, navigation, phonePrimary, phoneSecondary } from "@/lib/site-data";
-import { TrackedLink } from "@/components/site/TrackedLink";
-
+import { MotionPreference } from "./MotionPreference";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 export function SiteFooter() {
   return (
-    <footer className="border-t border-line bg-forest text-white">
-      <div className="page-shell grid gap-10 py-14 md:grid-cols-[1.2fr_0.8fr_0.8fr]">
-        <div className="space-y-4">
-          <p className="section-label text-[#d4b386]">Stone Clear</p>
-          <h2 className="max-w-xl font-serif text-4xl leading-none text-balance">
-            Restoration work that helps premium surfaces look cared for again.
-          </h2>
-          <p className="max-w-xl text-sm leading-7 text-white/70">
-            Stone Clear serves residential, hospitality and commercial clients across Ireland with polishing,
-            sealing, maintenance and exterior cleaning services.
-          </p>
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="text-sm font-semibold uppercase tracking-[0.22em] text-white/60">Explore</h3>
-          <div className="grid gap-3 text-sm">
-            {navigation.map((item) => (
-              <TrackedLink
-                key={item.href}
-                href={item.href}
-                eventType="nav_click"
-                tracking={{ location: "footer", label: item.label }}
-                className="transition hover:text-[#d4b386]"
-              >
-                {item.label}
-              </TrackedLink>
-            ))}
+    <footer className="site-footer">
+      <div className="shell">
+        <div className="footer-main">
+          <div>
+            <Link href="/" className="footer-wordmark">
+              Stone Clear
+            </Link>
+            <p>
+              Restore the surface.
+              <br />
+              Keep the character.
+            </p>
+          </div>
+          <div>
+            <p className="footer-label">Explore</p>
+            <Link href="/services">Our services</Link>
+            <Link href="/services/stone-restoration">Stone restoration</Link>
+            <Link href="/gallery">Our work</Link>
+            <Link href="/about">About us</Link>
+            <Link href="/clients">Homes & businesses</Link>
+          </div>
+          <div>
+            <p className="footer-label">Let’s talk</p>
+            <a href="tel:+353877533997">
+              087 753 3997 <ArrowUpRight size={16} aria-hidden="true" />
+            </a>
+            <a href="mailto:info@stoneclear.ie">
+              info@stoneclear.ie <ArrowUpRight size={16} aria-hidden="true" />
+            </a>
+            <p>
+              Based in Carlow.
+              <br />
+              Caring for surfaces across Ireland.
+            </p>
           </div>
         </div>
-
-        <div className="space-y-4">
-          <h3 className="text-sm font-semibold uppercase tracking-[0.22em] text-white/60">Contact</h3>
-          <a href={`tel:${phonePrimary.replace(/\s+/g, "")}`} className="flex items-center gap-3 text-sm">
-            <Phone className="h-4 w-4 text-[#d4b386]" />
-            <span>{phonePrimary}</span>
-          </a>
-          <a href={`tel:${phoneSecondary.replace(/\s+/g, "")}`} className="flex items-center gap-3 text-sm">
-            <Phone className="h-4 w-4 text-[#d4b386]" />
-            <span>{phoneSecondary}</span>
-          </a>
-          <a href={`mailto:${email}`} className="flex items-center gap-3 text-sm">
-            <Mail className="h-4 w-4 text-[#d4b386]" />
-            <span>{email}</span>
-          </a>
-          <a
-            href="https://instagram.com/stoneclear.ie"
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center gap-3 text-sm"
-          >
-            <Instagram className="h-4 w-4 text-[#d4b386]" />
-            <span>@stoneclear.ie</span>
-          </a>
+        <div className="footer-bottom">
+          <span>© {new Date().getFullYear()} Stone Clear</span>
+          <span>Stone restoration · Polishing · Sealing · Care</span>
+          <MotionPreference />
+          <Link href="/privacy">Privacy</Link>
         </div>
       </div>
     </footer>

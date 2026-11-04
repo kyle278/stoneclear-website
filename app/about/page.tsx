@@ -1,62 +1,114 @@
-import { Metadata } from "next";
-import Image from "next/image";
-import { materialList } from "@/lib/site-data";
-
-export const metadata: Metadata = {
-  title: "About",
-  description: "About Stone Clear and the restoration approach behind the business.",
-};
-
-export default function AboutPage() {
+import type { Metadata } from "next";
+import {
+  PageIntro,
+  Picture,
+  Callout,
+  Process,
+  TextLink,
+} from "@/components/site/UI";
+export const metadata: Metadata = { title: "About Stone Clear" };
+export default function About() {
   return (
-    <div className="page-shell page-section">
-      <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
-        <div className="space-y-4">
-          <p className="section-label">About Stone Clear</p>
-          <h1 className="section-title text-balance">More than two decades restoring surfaces for homes, hotels and businesses.</h1>
-          <p className="section-copy">
-            The existing website describes Stone Clear as a team that loves cleaning and restoring, has worked with
-            clients for more than 20 years, and values long-term customer relationships. This page keeps that core
-            positioning while presenting it with more polished language and layout.
+    <>
+      <PageIntro
+        label="About us"
+        title={
+          <>
+            Good stone.
+            <br />
+            In careful hands.
+          </>
+        }
+        copy="Stone Clear is a specialist in natural stone restoration, marble polishing and floor care. Based in Carlow, working with homes and businesses across Ireland."
+      />
+      <section className="shell about-feature">
+        <Picture
+          name="carrara"
+          alt="Stone Clear’s White Carrara and Light Emperador restoration"
+          priority
+        />
+        <div className="about-story">
+          <span className="eyebrow">
+            Restoring surfaces. Preserving character.
+          </span>
+          <h2>
+            See the potential
+            <br />
+            in what’s already there.
+          </h2>
+          <p>
+            Natural stone has a character that’s difficult to replace. Over
+            time, everyday use can leave it dull, scratched or marked. Our work
+            is about bringing that character back.
           </p>
-          <p className="section-copy">
-            Stone Clear focuses on practical restoration work that extends the life of stone, tile and hard surfaces,
-            improves the finish and helps avoid premature replacement.
+          <p>
+            Stone Clear combines specialist equipment, diamond polishing
+            techniques and practical floor-care experience to clean, restore,
+            seal and maintain stone surfaces.
           </p>
-        </div>
-
-        <div className="glass-card overflow-hidden rounded-[2rem] p-3">
-          <Image
-            src="/stoneclear/hero-polish.jpg"
-            alt="Stone Clear restoration work"
-            width={1200}
-            height={900}
-            className="h-full min-h-[420px] w-full rounded-[1.5rem] object-cover"
-          />
-        </div>
-      </div>
-
-      <section className="mt-12 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-        <div className="glass-card rounded-[2rem] p-6">
-          <p className="section-label">Why clients call</p>
-          <h2 className="mt-3 font-serif text-3xl leading-none">Free demonstrations, honest guidance and specialist treatment plans.</h2>
-          <p className="mt-4 text-sm leading-7 text-muted">
-            Stone Clear’s live site repeatedly highlights free demonstrations and consultation-led work. That remains a
-            key differentiator in this rebuild because it lowers risk for the client before a full job begins.
+          <p>
+            From a hallway at home to a hotel lobby, we start by understanding
+            the surface and the space around it.
           </p>
+          <TextLink href="/gallery">Take a look at our work</TextLink>
         </div>
-
-        <div className="glass-card rounded-[2rem] p-6">
-          <p className="section-label">Materials</p>
-          <div className="mt-4 flex flex-wrap gap-3">
-            {materialList.map((item) => (
-              <span key={item} className="rounded-full border border-line bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em]">
-                {item}
-              </span>
-            ))}
+      </section>
+      <section className="section shell values-grid">
+        <div>
+          <span className="eyebrow">How we work</span>
+          <h2>
+            Considered from
+            <br />
+            the first visit.
+          </h2>
+        </div>
+        <div>
+          <article>
+            <h3>The material comes first.</h3>
+            <p>
+              Different stone needs different care. Assessment helps us choose
+              an approach that suits your surface.
+            </p>
+          </article>
+          <article>
+            <h3>See it for yourself.</h3>
+            <p>
+              A free demonstration gives you a chance to see the possibilities
+              before deciding on the work.
+            </p>
+          </article>
+          <article>
+            <h3>Care beyond the finish.</h3>
+            <p>
+              Restoration is one part of the story. We also offer cleaning and
+              maintenance to care for the surface over time.
+            </p>
+          </article>
+        </div>
+      </section>
+      <section className="coverage-section">
+        <div className="shell coverage-grid">
+          <span className="eyebrow">
+            Rooted in Carlow. Working across Ireland.
+          </span>
+          <h2>
+            Carlow.
+            <br />
+            Dublin. Kildare.
+            <br />
+            And further afield.
+          </h2>
+          <div>
+            <p>
+              Tell us where you are and what needs attention. We work with
+              residential and commercial clients across Ireland.
+            </p>
+            <TextLink href="/contact">Discuss your location & project</TextLink>
           </div>
         </div>
       </section>
-    </div>
+      <Process />
+      <Callout />
+    </>
   );
 }

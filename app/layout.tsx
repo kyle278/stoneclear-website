@@ -1,62 +1,40 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
-import { PortalTrackerProvider } from "@/components/providers/PortalTrackerProvider";
-
-const serif = Cormorant_Garamond({
-  variable: "--font-serif",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-});
-
 const sans = Manrope({
   variable: "--font-sans",
   subsets: ["latin"],
+  display: "swap",
 });
-
 export const metadata: Metadata = {
   metadataBase: new URL("https://stoneclear-website.vercel.app"),
   title: {
-    default: "Stone Clear | Stone Restoration, Floor Polishing & Exterior Cleaning",
+    default: "Stone Clear | The beauty is still there",
     template: "%s | Stone Clear",
   },
   description:
-    "Stone Clear restores marble, limestone, terrazzo, porcelain, epoxy floors and exterior surfaces for residential, hotel and commercial clients across Ireland.",
-  keywords: [
-    "stone restoration Ireland",
-    "marble polishing Dublin",
-    "terrazzo restoration",
-    "epoxy floors Ireland",
-    "window cleaning",
-    "power washing",
-  ],
+    "Specialist stone restoration, polishing and sealing for homes and businesses. Carlow, Dublin, Kildare and across Ireland. Arrange a free demonstration and quote.",
+  robots: { index: false, follow: false },
   openGraph: {
-    title: "Stone Clear",
-    description:
-      "Premium stone restoration, floor polishing, cleaning and maintenance services across Ireland.",
-    images: ["/stoneclear/hero-floor.jpg"],
+    title: "Stone Clear — The beauty is still there",
+    description: "Stone restoration, polishing & care across Ireland.",
+    images: ["/assets/carrara.webp"],
   },
 };
-
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={`${serif.variable} ${sans.variable} antialiased`}>
-        <Suspense fallback={null}>
-          <PortalTrackerProvider />
-        </Suspense>
-        <div className="site-shell">
-          <SiteHeader />
-          <main>{children}</main>
-          <SiteFooter />
-        </div>
+      <body className={sans.variable}>
+        <a className="skip-link" href="#main">
+          Skip to content
+        </a>
+        <SiteHeader />
+        <main id="main">{children}</main>
+        <SiteFooter />
       </body>
     </html>
   );

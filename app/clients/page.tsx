@@ -1,31 +1,58 @@
-import { Metadata } from "next";
-import { clients } from "@/lib/site-data";
-
+import type { Metadata } from "next";
+import {
+  PageIntro,
+  Picture,
+  Callout,
+  TickList,
+  TextLink,
+} from "@/components/site/UI";
 export const metadata: Metadata = {
-  title: "Clients",
-  description: "Selected hospitality and commercial clients Stone Clear has worked with.",
+  title: "Homes, hotels & commercial spaces",
 };
-
-export default function ClientsPage() {
+export default function Clients() {
   return (
-    <div className="page-shell page-section">
-      <div className="max-w-3xl space-y-4">
-        <p className="section-label">Clients</p>
-        <h1 className="section-title text-balance">Trusted by hotels, venues, retailers and commercial operators.</h1>
-        <p className="section-copy">
-          The current Stone Clear website lists a long roster of hospitality and commercial clients. This launch page
-          keeps the most credible names visible to reinforce trust without carrying over the placeholder copy that
-          appeared on the original page.
-        </p>
-      </div>
-
-      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {clients.map((client) => (
-          <div key={client} className="glass-card rounded-[1.5rem] px-5 py-6 text-sm font-semibold leading-6">
-            {client}
-          </div>
-        ))}
-      </div>
-    </div>
+    <>
+      <PageIntro
+        label="Homes & businesses"
+        title={
+          <>
+            Care that fits
+            <br />
+            your space.
+          </>
+        }
+        copy="Specialist restoration and cleaning for private homes, hotels, offices and commercial properties across Ireland."
+      />
+      <section className="shell audience-section section">
+        <div className="audience-image">
+          <Picture
+            name="marble-hall"
+            alt="Cream Marfil and black marble restoration by Stone Clear"
+          />
+        </div>
+        <div className="audience-copy">
+          <h2>
+            From everyday living
+            <br />
+            to first impressions.
+          </h2>
+          <p>
+            How a surface is used matters as much as how it looks. We assess the
+            stone, the condition and the needs of your space before recommending
+            treatment.
+          </p>
+          <TickList
+            items={[
+              "Homes & residential interiors",
+              "Hotels & hospitality spaces",
+              "Offices & commercial properties",
+              "Cleaning & ongoing maintenance",
+            ]}
+          />
+          <TextLink href="/contact">Discuss your space</TextLink>
+        </div>
+      </section>
+      <Callout />
+    </>
   );
 }

@@ -1,56 +1,30 @@
-# Stone Clear Website
+# Stone Clear website
 
-Replacement marketing website for Stone Clear, focused on restoration-led quote enquiries.
+Multipage Stone Clear website sample, continuing the existing standalone client repository and Vercel project.
 
-## Launch pages
+## Run locally
 
-- `/`
-- `/services`
-- `/gallery`
-- `/clients`
-- `/about`
-- `/contact`
-
-## Forms in scope
-
-- `contact`
-
-## Portal integration
-
-- Organisation id: `TBD`
-- Site id: `TBD`
-- Default form slug: `contact`
-- Portal route contract: `app/api/portal-form-submit/route.ts`
-- Provisioning command to run from `ingeniumportal`: `npm run provision:client -- --mode onboard --name "Stone Clear" --slug stone-clear --owner-email info@stoneclear.ie`
-
-## Deployment
-
-```bash
+```sh
+npm ci
 npm run dev
-npm run lint
-npm run build
 ```
 
-## Environment variables
+Production checks: `npm run build` and `npm run lint`. Production server: `npm run start`.
 
-See `.env.example`.
+## Pages
 
-## Brand assets
+Home, services, stone restoration, gallery, about, homes/businesses, contact and privacy. Client-owned photography is served in WebP. Interactive before/after viewer, native keyboard-accessible service selector, mobile navigation and reduced-motion controls are implemented.
 
-Current launch assets were pulled from the existing Stone Clear website and stored in `public/stoneclear/`.
+Contact links open a telephone/email app. There is no live enquiry submission or data persistence. The retained Portal scaffold is not mounted by the public site and has no configured environment variables. Do not activate it without a separately authorised integration and approved privacy wording. No analytics/tracking is mounted.
 
-## Manual follow-up items
+`PROJECT.md` records verified project connections and handoff status. `DESIGN.md` describes the design. `notes/SOURCES.md` records public facts and assets. Local `qa/` and `research/` are ignored and are not website content.
 
-- Add the missing portal env/secrets locally or in Vercel before testing live form submissions
-- Run the organisation provisioning command and update `.env.local` / Vercel env vars with the returned IDs
-- Apply `portal/stoneclear-portal-seed.sql` after the organisation exists
-- Add confirmed production domain later if Stone Clear moves off the default Vercel domain
-- Replace reused current-site assets with final brand-approved photography and logo files when available
-- Fill portal IDs and Vercel metadata below once provisioning is complete
+## Publishing
 
-## Connected services
+Existing public GitHub repository: https://github.com/kyle278/stoneclear-website
 
-- GitHub repo: `https://github.com/kyle278/stoneclear-website`
-- Vercel project id: `prj_1oxWvizXqF4sNnB5hvvsXc0IHOIA`
-- Vercel project URL: `https://vercel.com/kyle278s-projects/stoneclear-website`
-- Active production alias: `https://stoneclear-website.vercel.app`
+Existing Vercel dashboard: https://vercel.com/kyle278s-projects/stoneclear-website
+
+Production branch: `master`. Vercel uses the repository root, Next.js, `npm ci`, and `npm run build`. Git deployment is enabled. Keep `.vercel/` ignored. Preserve noindex metadata, robots and response-header controls until a separately authorised launch. Noindex does not provide access protection.
+
+No prospect production domains were changed. Use the verified sharing URL recorded in `PROJECT.md`.
