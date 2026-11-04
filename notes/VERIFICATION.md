@@ -16,3 +16,5 @@ Two planned visual rounds: hero checkpoint at 1440px and 390px, then completed-s
 Evidence in local ignored qa/: hero-desktop.png, hero-mobile.png (checkpoint); hero-final-share.png, home-desktop-confirmed.png, confirmed-mobile-*.png, *checks.json. Initial full-page captures included offscreen lazy placeholders; later confirmed-mobile screenshots were captured after scrolling to load all images.
 
 Deployment and anonymous production checks are recorded separately in PROJECT.md after publication.
+
+Deployed verification: https://stoneclear-website.vercel.app/ serves the new application publicly; all eight pages and robots.txt anonymous HTTP 200, noindex header intact. Deployment dpl_121GEBuT6UDnPC97D5TKtDwdNAVm is READY, source git, commit acfaf82c843ff32a6edd99668a94b87b35f7c69a. Live browser CTA → contact radio and prepared mailto, mobile menu → gallery White Marble → Before via Enter all verified, no console warnings/errors. FAQ Enter expansion and service URL preset also verified locally. No emails, calls or enquiries sent.
