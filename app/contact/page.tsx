@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import { PageIntro } from "@/components/site/UI";
-import { ContactOptions } from "@/components/site/ContactOptions";
+import { EnquiryForm } from "@/components/site/EnquiryForm";
 export const metadata: Metadata = { title: "Contact & free demonstration" };
 export default async function Contact({
   searchParams,
@@ -52,12 +52,12 @@ export default async function Contact({
           <div className="contact-note">
             <span className="small-cross">+</span>
             <p>
-              You don’t need to know the name of your stone. Start with a photo
-              and a conversation.
+              You don’t need to know the name of your stone. Tell us what you’d
+              like to improve and we’ll start there.
             </p>
           </div>
         </aside>
-        <ContactOptions preset={service} />
+        <EnquiryForm preset={service} />
       </section>
       <section className="contact-next">
         <div className="shell">

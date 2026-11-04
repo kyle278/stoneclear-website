@@ -1,5 +1,7 @@
 @import "tailwindcss";
+@import "./enquiry.css";
 :root {
+  --error: #9c342b;
   --client-logo-height: 72px;
   --client-card-height: 156px;
   --client-control-size: 44px;
@@ -1456,7 +1458,7 @@ svg {
 .coverage-grid .text-link {
   margin-top: var(--space-5);
 }
-/* Contact: no personal data collected */
+/* Contact layout */
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1.7fr;

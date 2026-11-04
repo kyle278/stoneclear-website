@@ -1,153 +1,67 @@
+import { createHash } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { PORTAL_FORM_ID, PORTAL_ORIGIN, PORTAL_SITE_ID, PRIVACY_VERSION, SITE_ORIGIN, validateEnquiry } from "@/lib/enquiry";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_PORTAL_SUPABASE_URL;
-const serviceRoleKey = process.env.PORTAL_SUPABASE_SERVICE_ROLE_KEY;
-
-const supabase =
-  supabaseUrl && serviceRoleKey
-    ? createClient(supabaseUrl, serviceRoleKey, {
-        auth: { persistSession: false },
-      })
-    : null;
-
-type SubmitBody = {
-  formSlug?: string;
-  formId?: string;
-  fields: Record<string, unknown>;
-  tracking: {
-    utm_source?: string | null;
-    utm_medium?: string | null;
-    utm_campaign?: string | null;
-    utm_term?: string | null;
-    utm_content?: string | null;
-    cid?: string | null;
-    visitor_id?: string | null;
-    session_id?: string | null;
-    submission_url: string;
-    referrer?: string | null;
-  };
-};
-
-function requireEnv(name: string) {
-  const value = process.env[name];
-  if (!value?.trim()) {
-    throw new Error(`Missing required environment variable: ${name}`);
-  }
-  return value.trim();
+export const runtime = "nodejs";
+type Receipt = { status: number; body: Record<string, unknown> };
+const receipts = new Map<string, { hash: string; created: number; pending: Promise<Receipt> }>();
+const attempts = new Map<string, { count: number; reset: number }>();
+const uuid = /^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89ab][a-f\d]{3}-[a-f\d]{12}$/i;
+function reply(result: Receipt) {
+  return NextResponse.json(result.body, { status: result.status, headers: { "Cache-Control": "no-store" } });
 }
-
-function normalizeEmail(value: unknown) {
-  if (typeof value !== "string") {
-    return null;
-  }
-
-  const trimmed = value.trim().toLowerCase();
-  return trimmed.length > 3 ? trimmed : null;
-}
-
 export async function POST(req: NextRequest) {
+  const origin = req.headers.get("origin");
+  const local = process.env.NODE_ENV === "development" && origin === new URL(req.url).origin;
+  if (origin !== SITE_ORIGIN && !local) return reply({ status: 403, body: { error: "Please send your enquiry from the Stone Clear website." } });
+  if (!req.headers.get("content-type")?.startsWith("application/json")) return reply({ status: 415, body: { error: "Please use the website enquiry form." } });
+  if (Number(req.headers.get("content-length")) > 24000) return reply({ status: 413, body: { error: "Please shorten your enquiry and try again." } });
+  let body;
   try {
-    if (!supabase) {
-      throw new Error(
-        "Portal form submission is not configured. Expected NEXT_PUBLIC_PORTAL_SUPABASE_URL and PORTAL_SUPABASE_SERVICE_ROLE_KEY.",
-      );
-    }
-
-    const body = (await req.json()) as SubmitBody;
-    const organisationId = requireEnv("PORTAL_ORGANISATION_ID");
-    const siteId = requireEnv("PORTAL_SITE_ID");
-
-    const email = normalizeEmail(body.fields.email);
-    if (!email) {
-      return NextResponse.json({ error: "A valid email address is required." }, { status: 400 });
-    }
-
-    let formId = body.formId;
-    if (!formId) {
-      const slug = body.formSlug ?? process.env.PORTAL_DEFAULT_FORM_SLUG;
-      if (!slug) {
-        return NextResponse.json({ error: "Missing formId/formSlug" }, { status: 400 });
-      }
-
-      const { data: formRow, error: formError } = await supabase
-        .from("website_forms")
-        .select("id")
-        .eq("organisation_id", organisationId)
-        .eq("site_id", siteId)
-        .eq("slug", slug)
-        .eq("is_active", true)
-        .maybeSingle();
-
-      if (formError || !formRow) {
-        return NextResponse.json({ error: "Form not found" }, { status: 400 });
-      }
-      formId = formRow.id;
-    }
-
-    const ipHeader = req.headers.get("x-forwarded-for");
-    const ipAddress = ipHeader?.split(",")[0]?.trim() || null;
-    const userAgent = req.headers.get("user-agent");
-
-    const tracking = body.tracking ?? { submission_url: "" };
-    const submissionUrl = tracking.submission_url;
-
-    const dataPayload = {
-      ...body.fields,
-      email,
-      utm_source: tracking.utm_source ?? null,
-      utm_medium: tracking.utm_medium ?? null,
-      utm_campaign: tracking.utm_campaign ?? null,
-      utm_term: tracking.utm_term ?? null,
-      utm_content: tracking.utm_content ?? null,
-      cid: tracking.cid ?? null,
-      visitor_id: tracking.visitor_id ?? null,
-      session_id: tracking.session_id ?? null,
-      submission_url: submissionUrl,
-    };
-
-    const metadata = {
-      submitted_at: new Date().toISOString(),
-      form_slug: body.formSlug ?? process.env.PORTAL_DEFAULT_FORM_SLUG ?? "contact",
-      referrer: tracking.referrer ?? null,
-      landing_url: submissionUrl,
-      utm_source: tracking.utm_source ?? null,
-      utm_medium: tracking.utm_medium ?? null,
-      utm_campaign: tracking.utm_campaign ?? null,
-      utm_term: tracking.utm_term ?? null,
-      utm_content: tracking.utm_content ?? null,
-      cid: tracking.cid ?? null,
-      visitor_id: tracking.visitor_id ?? null,
-      session_id: tracking.session_id ?? null,
-    };
-
-    const { error } = await supabase.from("website_form_submissions").insert({
-      organisation_id: organisationId,
-      site_id: siteId,
-      form_id: formId,
-      data: dataPayload,
-      source_url: submissionUrl,
-      submission_url: submissionUrl,
-      utm_source: tracking.utm_source ?? null,
-      utm_medium: tracking.utm_medium ?? null,
-      utm_campaign: tracking.utm_campaign ?? null,
-      utm_term: tracking.utm_term ?? null,
-      utm_content: tracking.utm_content ?? null,
-      campaign_cid: tracking.cid ?? null,
-      tracking_visitor_id: tracking.visitor_id ?? null,
-      tracking_session_id: tracking.session_id ?? null,
-      metadata,
-      ip_address: ipAddress,
-      user_agent: userAgent,
-    });
-
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
-
-    return NextResponse.json({ ok: true });
-  } catch (err) {
-    const message = err instanceof Error ? err.message : "Unknown error";
-    return NextResponse.json({ error: message }, { status: 500 });
+    const raw = await req.text();
+    if (Buffer.byteLength(raw) > 24000) return reply({ status: 413, body: { error: "Please shorten your enquiry and try again." } });
+    body = JSON.parse(raw);
+  } catch { return reply({ status: 400, body: { error: "We couldn’t read your enquiry. Please try again." } }); }
+  if (!body || typeof body !== "object" || !body.fields || typeof body.fields !== "object" || Array.isArray(body.fields)) return reply({ status: 400, body: { error: "Please complete the enquiry form." } });
+  if (body.honeypot) return reply({ status: 400, body: { error: "Your enquiry could not be accepted. Please call 087 753 3997." } });
+  if (typeof body.submission_id !== "string" || !uuid.test(body.submission_id)) return reply({ status: 400, body: { error: "Please refresh the form and try again." } });
+  const { fields, errors } = validateEnquiry(body.fields);
+  if (Object.keys(errors).length) return reply({ status: 400, body: { error: "Please check your enquiry details.", errors } });
+  const now = Date.now();
+  for (const [key, receipt] of receipts) if (now - receipt.created > 3600000) receipts.delete(key);
+  for (const [key, attempt] of attempts) if (now > attempt.reset) attempts.delete(key);
+  const source = `${SITE_ORIGIN}/contact`;
+  const tracking = Object.fromEntries(["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"].flatMap(key => typeof body.tracking?.[key] === "string" ? [[key, body.tracking[key].slice(0, 200)]] : []));
+  const hash = createHash("sha256").update(JSON.stringify({ fields, tracking })).digest("hex");
+  const previous = receipts.get(body.submission_id);
+  if (previous) {
+    if (previous.hash !== hash) return reply({ status: 409, body: { error: "These details have changed. Please refresh the form before sending another enquiry." } });
+    return reply(await previous.pending);
   }
+  const ipKey = createHash("sha256").update(req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown").digest("hex");
+  const attempt = attempts.get(ipKey) || { count: 0, reset: now + 600000 };
+  if (attempt.count >= 8 || receipts.size >= 5000) return reply({ status: 429, body: { error: "Please wait a few minutes before trying again, or call 087 753 3997." } });
+  attempts.set(ipKey, { ...attempt, count: attempt.count + 1 });
+  const pending = (async (): Promise<Receipt> => {
+    try {
+      const upstream = await fetch(`${PORTAL_ORIGIN}/api/websites/forms/submit`, {
+        method: "POST", headers: { "Content-Type": "application/json", Origin: SITE_ORIGIN },
+        body: JSON.stringify({
+          site_id: PORTAL_SITE_ID, form_slug: "contact", form_id: PORTAL_FORM_ID,
+          fields: { ...fields, name: `${fields.first_name} ${fields.last_name}`, privacy_notice_version: PRIVACY_VERSION },
+          source_url: source, submission_url: source, tracking,
+          metadata: { website_request_id: body.submission_id, privacy_notice_version: PRIVACY_VERSION, form_version: "guided-2026-11-04" },
+        }), signal: AbortSignal.timeout(25000), cache: "no-store",
+      });
+      const result = await upstream.json();
+      if (!upstream.ok || result.ok !== true || result.accepted === false || !uuid.test(result.submission_id || "") || result.site_id !== PORTAL_SITE_ID || result.form_id !== PORTAL_FORM_ID) {
+        return { status: 502, body: { error: "We couldn’t confirm your enquiry. Your answers are still here. Please try again or call 087 753 3997." } };
+      }
+      return { status: 201, body: { ok: true, submission_id: result.submission_id } };
+    } catch { return { status: 503, body: { error: "The enquiry service is temporarily unavailable. Your answers are still here. Please try again or call 087 753 3997." } }; }
+  })();
+  receipts.set(body.submission_id, { hash, created: now, pending });
+  const result = await pending;
+  if (result.status !== 201) receipts.delete(body.submission_id);
+  return reply(result);
 }
