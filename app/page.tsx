@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { HomeSections } from "@/components/site/HomeSections";
 import { Picture } from "@/components/site/UI";
+import { ClientBanner } from "@/components/site/ClientBanner";
 export default function Home() {
   return (
     <>
@@ -67,6 +68,7 @@ export default function Home() {
           </p>
         </div>
       </div>
+      <ClientBanner />
       <section className="section shell" id="restoration">
         <div className="section-heading">
           <div>

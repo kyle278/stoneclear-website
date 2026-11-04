@@ -22,7 +22,7 @@ export function SiteFooter() {
             <Link href="/services/stone-restoration">Stone restoration</Link>
             <Link href="/gallery">Our work</Link>
             <Link href="/about">About us</Link>
-            <Link href="/clients">Homes & businesses</Link>
+            <Link href="/clients">Our clients</Link>
           </div>
           <div>
             <p className="footer-label">Let’s talk</p>

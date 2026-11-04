@@ -1,3 +1,5 @@
+import { clientHistory } from "./client-data";
+
 export const companyName = "Stone Clear";
 export const phonePrimary = "+353 87 753 3997";
 export const phoneSecondary = "+353 85 153 5828";
@@ -103,28 +105,7 @@ export const galleryItems = [
   },
 ];
 
-export const clients = [
-  "The Shelbourne Hotel",
-  "College Green Hotel",
-  "InterContinental Dublin",
-  "Powerscourt Hotel",
-  "The Marker Hotel",
-  "Hilton Garden Inn",
-  "The Morgan Hotel",
-  "K Club Hotel",
-  "Aloft Dublin",
-  "The Clarence Hotel",
-  "Druids Glen Hotel",
-  "Strand Hotel Limerick",
-  "Hilton Dublin",
-  "Sheraton Athlone Hotel",
-  "Toyota Naas",
-  "Junction 14 Mayfield",
-  "Right Price Tiles Carlow",
-  "Roly's Bistro",
-  "Killashee Hotel",
-  "Playland Casino Dublin",
-];
+export const clients = clientHistory.map((client) => client.name);
 
 export const processSteps = [
   {

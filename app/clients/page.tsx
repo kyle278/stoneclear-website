@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { clientHistory } from "@/lib/client-data";
+import { ClientLogo } from "@/components/site/ClientLogo";
 import {
   PageIntro,
   Picture,
@@ -7,22 +9,42 @@ import {
   TextLink,
 } from "@/components/site/UI";
 export const metadata: Metadata = {
-  title: "Homes, hotels & commercial spaces",
+  title: "Our clients | Hotels & businesses",
 };
 export default function Clients() {
   return (
     <>
       <PageIntro
-        label="Homes & businesses"
+        label="Our clients"
         title={
           <>
-            Care that fits
+            In good
             <br />
-            your space.
+            company.
           </>
         }
-        copy="Specialist restoration and cleaning for private homes, hotels, offices and commercial properties across Ireland."
+        copy="From landmark hotels to local businesses, we’ve cared for surfaces in spaces where first impressions matter."
       />
+      <section className="shell client-history" aria-label="Clients we’ve worked with">
+        <div className="client-history-intro">
+          <h2>Hotels & hospitality.</h2>
+          <p>Some of the hotels we’ve worked with across Ireland.</p>
+        </div>
+        <ul className="client-wall">
+          {clientHistory.filter((client) => client.category === "hotel").map((client) => (
+            <li key={client.name}><ClientLogo client={client} /></li>
+          ))}
+        </ul>
+        <div className="client-history-intro">
+          <h2>Business, built on care.</h2>
+          <p>Restaurants, retailers and commercial clients.</p>
+        </div>
+        <ul className="client-wall">
+          {clientHistory.filter((client) => client.category === "business").map((client) => (
+            <li key={client.name}><ClientLogo client={client} /></li>
+          ))}
+        </ul>
+      </section>
       <section className="shell audience-section section">
         <div className="audience-image">
           <Picture

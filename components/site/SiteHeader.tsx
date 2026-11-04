@@ -7,6 +7,7 @@ import { ArrowUpRight, Menu, X, Phone } from "lucide-react";
 const nav = [
   { href: "/services", label: "Our services" },
   { href: "/gallery", label: "Our work" },
+  { href: "/clients", label: "Clients" },
   { href: "/about", label: "About us" },
   { href: "/contact", label: "Contact" },
 ];
