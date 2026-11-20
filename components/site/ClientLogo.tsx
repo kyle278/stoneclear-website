@@ -1,7 +1,7 @@
 import Image from "next/image";
 import type { Client } from "@/lib/client-data";
 
-export function ClientLogo({ client }: { client: Client }) {
+export function ClientLogo({ client, loading = "lazy" }: { client: Client; loading?: "lazy" | "eager" }) {
   return (
     <figure className={`client-mark${client.logo ? "" : " client-mark-text"}`}>
       {client.logo && (
@@ -11,7 +11,7 @@ export function ClientLogo({ client }: { client: Client }) {
           height={100}
           alt=""
           className={`client-logo${client.logo === "right-price-tiles.webp" ? " client-logo-tonal" : ""}`}
-          loading="lazy"
+          loading={loading}
           unoptimized
         />
       )}

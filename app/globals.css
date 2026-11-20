@@ -5,6 +5,8 @@
   --client-logo-height: 72px;
   --client-card-height: 156px;
   --client-control-size: 44px;
+  --client-loop-duration: 110s;
+  --client-edge-fade: clamp(32px, 6vw, 96px);
   --ink: #172a38;
   --blue: #1258a4;
   --blue-dark: #0c417d;
@@ -94,30 +96,89 @@
   color: var(--muted);
   opacity: 0.4;
 }
-.client-logo-rail,
+.client-motion-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--client-control-size);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--line);
+  background: var(--white);
+  color: var(--blue);
+  font-size: var(--size-xs);
+  white-space: nowrap;
+  transition: background var(--fast), border-color var(--fast);
+}
+.client-motion-toggle:hover {
+  background: var(--ice);
+  border-color: var(--blue);
+}
+.client-logo-group,
 .client-wall {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
 }
-.client-logo-rail {
-  grid-auto-flow: column;
-  grid-auto-columns: calc((100% - 5 * var(--space-6)) / 6);
-  gap: var(--space-6);
-  overflow-x: auto;
-  overscroll-behavior-inline: contain;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: thin;
-  scrollbar-color: var(--line) transparent;
+.client-logo-window {
+  --client-visible: 6;
+  --client-gap: var(--space-6);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--client-edge-fade), #000 calc(100% - var(--client-edge-fade)), transparent);
+  mask-image: linear-gradient(to right, transparent, #000 var(--client-edge-fade), #000 calc(100% - var(--client-edge-fade)), transparent);
   padding-block: var(--space-3);
 }
-.client-logo-rail:focus-visible {
+.client-logo-track {
+  display: flex;
+  width: calc((100% + var(--client-gap)) / var(--client-visible) * var(--client-count) * 2);
+  animation: client-logo-loop var(--client-loop-duration) linear infinite;
+  animation-play-state: paused;
+}
+.client-logo-track[data-playing="true"] {
+  animation-play-state: running;
+}
+.client-logo-group {
+  flex-shrink: 0;
+  width: 50%;
+  grid-template-columns: repeat(var(--client-count), minmax(0, 1fr));
+  gap: var(--client-gap);
+  padding-right: var(--client-gap);
+}
+@keyframes client-logo-loop {
+  to { transform: translateX(-50%); }
+}
+@media (hover: hover) {
+  .client-logo-window:hover .client-logo-track { animation-play-state: paused; }
+}
+.client-logo-window[data-reduced="true"] {
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+.client-logo-window[data-reduced="true"] .client-logo-track {
+  animation: none;
+  width: calc((100% + var(--client-gap)) / var(--client-visible) * var(--client-count));
+}
+.client-logo-window[data-reduced="true"] .client-logo-group { width: 100%; }
+.client-logo-window[data-reduced="true"] .client-logo-copy { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .client-logo-window { overflow-x: auto; }
+  .client-logo-track {
+    animation: none;
+    width: calc((100% + var(--client-gap)) / var(--client-visible) * var(--client-count));
+  }
+  .client-logo-group { width: 100%; }
+  .client-logo-copy { display: none; }
+}
+.client-logo-window:focus-visible {
   outline: 3px solid var(--blue);
   outline-offset: 5px;
+  -webkit-mask-image: none;
+  mask-image: none;
 }
-.client-logo-rail li {
-  scroll-snap-align: start;
+.client-logo-group li {
   min-width: 0;
 }
 .client-mark {
@@ -188,8 +249,8 @@
   letter-spacing: -0.025em;
 }
 @media (max-width: 1100px) {
-  .client-logo-rail {
-    grid-auto-columns: calc((100% - 2 * var(--space-6)) / 3);
+  .client-logo-window {
+    --client-visible: 3;
   }
   .client-wall {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -210,9 +271,9 @@
     width: 100%;
     justify-content: space-between;
   }
-  .client-logo-rail {
-    grid-auto-columns: calc((100% - var(--space-5)) / 2.15);
-    gap: var(--space-5);
+  .client-logo-window {
+    --client-visible: 2.15;
+    --client-gap: var(--space-5);
   }
   .client-wall {
     grid-template-columns: repeat(2, minmax(0, 1fr));
